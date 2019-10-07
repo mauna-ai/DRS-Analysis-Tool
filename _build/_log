@@ -1,0 +1,179 @@
+### Starting build.
+# Target: paraphraser.ml.depends, tags: { package(batteries), extension:ml, file:paraphraser.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -package batteries -modules paraphraser.ml > paraphraser.ml.depends
+# Target: drsxp.ml.depends, tags: { package(batteries), extension:ml, file:drsxp.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -package batteries -modules drsxp.ml > drsxp.ml.depends
+# Target: lexer.ml.depends, tags: { package(batteries), extension:ml, file:lexer.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -package batteries -modules lexer.ml > lexer.ml.depends
+# Target: parser.mli.depends, tags: { package(batteries), extension:mli, file:parser.mli, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -package batteries -modules parser.mli > parser.mli.depends
+# Target: syntax.ml.depends, tags: { package(batteries), extension:ml, file:syntax.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -package batteries -modules syntax.ml > syntax.ml.depends
+# Target: syntax.cmo, tags: { package(batteries), byte, compile, extension:cmo, extension:ml, file:syntax.cmo, file:syntax.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -package batteries -o syntax.cmo syntax.ml
++ ocamlfind ocamlc -c -package batteries -o syntax.cmo syntax.ml
+File "syntax.ml", line 193, characters 11-28:
+193 |   | Failure("int_of_string") -> NotCountable;;
+                 ^^^^^^^^^^^^^^^^^
+Warning 52: Code should not depend on the actual values of
+this constructor's arguments. They are only for information
+and may change in future versions. (See manual section 9.5)
+File "syntax.ml", line 195, characters 22-181:
+195 | ......................function
+196 |   | TermAtom(a) -> atom2String a
+197 |   | Variable a ->  "V("^a^")"
+198 |   | Nbr a -> string_of_int a
+199 |   | ConstCh a ->  "Cch("^a^")"
+200 |   | Const a  ->  "C("^a^")"
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+Listt _
+File "syntax.ml", line 356, characters 20-1738:
+356 | ....................function
+357 |   | Object(  ref,  name,  countable,  unittype,  op, count,_,x,y)         as self -> f self
+358 |   | PredicateTransitive( ref, verb, _,  subject , cod, gramnbr )          as self -> f self
+359 |   | PredicateDiTransitive(  ref ,verb,_,  subject ,  cod,  coi, gramnbr)  as self -> f self 
+360 |   | PredicateIntransitive(  ref , verb,_, subject, gramnbr)               as self -> f self
+...
+371 |   | String a                                                            as self -> f self 
+372 |   | Named  a                                                            as self -> f self
+373 |   | SubDrs(a, dr)                                                       as self -> SubDrs(a, maptree f dr)
+374 |   | Rien                                                                as self -> f self...
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+VarElem _
+File "syntax.ml", line 383, characters 8-2036:
+383 | ........function
+384 |         | Object(  ref,  name,  countable,  unittype,  op, count,_,x,y)         as self -> H.add hash ref self; hash
+385 |         | PredicateTransitive( ref, verb,_,   subject , cod, gramnbr )          as self -> H.add hash ref self; hash
+386 |         | PredicateDiTransitive(  ref ,verb,_,  subject ,  cod,  coi, gramnbr)  as self -> H.add hash ref self; hash
+387 |         | PredicateIntransitive(  ref , verb,_, subject, gramnbr)               as self -> H.add hash ref self; hash
+...
+398 |         | String a                                                            as self -> hash 
+399 |         | SubDrs(a, dr)                                                       as self -> makeHash hash dr
+400 |         | Named  a                                                            as self -> hash
+401 |         | Rien                                                                        -> hash
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+VarElem _
+File "syntax.ml", line 418, characters 8-5187:
+418 | ........match atom with
+419 |         | Object( ref,  name,  countable,  unittype,  op, count,_,x,y)                          -> [addIfRightPos ref defvar]
+420 |         | PredicateTransitive( ref, verb, _,  Var subject , Var cod, gramnbr )                  -> [addIfRightPos ref defvar; addIfRightPos (Var subject) param1 ; addIfRightPos (Var cod) param2]
+421 |         | PredicateTransitive( ref, verb, _,  _ , Var cod, gramnbr )                            -> [addIfRightPos ref defvar; addIfRightPos (Var cod) param2]
+422 |         | PredicateTransitive( ref, verb, _,  Var subject , _, gramnbr )                        -> [addIfRightPos ref defvar; addIfRightPos (Var subject) param1]
+...
+456 |         | String a                                                                              -> []
+457 |         | Named  a                                                                              -> []
+458 |         | SubDrs(a, dr)                                                                         -> [addIfRightPos (Var a) defvar]
+459 |         | Rien                                                                                  -> []...
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Modifier_pp (_, _, (SubAtom _|Num _|ConstStr _|List _))|
+HasPart (_, (SubAtom _|Num _|ConstStr _|List _))|VarElem _)
+File "syntax.ml", line 345, characters 18-93:
+345 |                 | Operator2 (op, b, c)                                                as self -> let h1 = makeHashDomain hash b in makeHashDomain h1 c
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 26: unused variable self.
+File "syntax.ml", line 346, characters 18-93:
+346 |                 | Operator1 (op, b)                                                   as self -> makeHashDomain hash b
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 26: unused variable self.
+File "syntax.ml", line 369, characters 4-79:
+369 |   | Operator2 (op, b, c)                                                as self -> Operator2(op, maptree f b, maptree f c)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 26: unused variable self.
+File "syntax.ml", line 370, characters 4-79:
+370 |   | Operator1 (op, b)                                                   as self -> Operator1(op, maptree f b) 
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 26: unused variable self.
+File "syntax.ml", line 373, characters 4-79:
+373 |   | SubDrs(a, dr)                                                       as self -> SubDrs(a, maptree f dr)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 26: unused variable self.
+File "syntax.ml", line 396, characters 10-85:
+396 |         | Operator2 (op, b, c)                                                as self -> let h1 = makeHash hash b in makeHash h1 c
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 26: unused variable self.
+File "syntax.ml", line 397, characters 10-85:
+397 |         | Operator1 (op, b)                                                   as self -> makeHash hash b
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 26: unused variable self.
+File "syntax.ml", line 398, characters 10-85:
+398 |         | String a                                                            as self -> hash 
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 26: unused variable self.
+File "syntax.ml", line 399, characters 10-85:
+399 |         | SubDrs(a, dr)                                                       as self -> makeHash hash dr
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 26: unused variable self.
+File "syntax.ml", line 400, characters 10-85:
+400 |         | Named  a                                                            as self -> hash
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 26: unused variable self.
+File "syntax.ml", line 416, characters 12-16:
+416 |         let toto = not alterateur in (*Pourforecr le type de alterateur*)
+                  ^^^^
+Warning 26: unused variable toto.
+# Target: parser.cmi, tags: { package(batteries), byte, compile, extension:mli, file:parser.mli, interf, ocaml, quiet }
+ocamlfind ocamlc -c -package batteries -o parser.cmi parser.mli
+# Target: message.ml.depends, tags: { package(batteries), extension:ml, file:message.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -package batteries -modules message.ml > message.ml.depends
+# Target: lexer.cmo, tags: { package(batteries), byte, compile, extension:cmo, extension:ml, file:lexer.cmo, file:lexer.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -package batteries -o lexer.cmo lexer.ml
+# Target: message.cmo, tags: { package(batteries), byte, compile, extension:cmo, extension:ml, file:message.cmo, file:message.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -package batteries -o message.cmo message.ml
+# Target: drsxp.cmo, tags: { package(batteries), byte, compile, extension:cmo, extension:ml, file:drsxp.cmo, file:drsxp.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -package batteries -o drsxp.cmo drsxp.ml
++ ocamlfind ocamlc -c -package batteries -o drsxp.cmo drsxp.ml
+File "drsxp.ml", line 14, characters 11-34:
+14 |   | Failure("lexing: empty token")
+                ^^^^^^^^^^^^^^^^^^^^^^^
+Warning 52: Code should not depend on the actual values of
+this constructor's arguments. They are only for information
+and may change in future versions. (See manual section 9.5)
+# Target: paraphraser.cmo, tags: { package(batteries), byte, compile, extension:cmo, extension:ml, file:paraphraser.cmo, file:paraphraser.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -package batteries -o paraphraser.cmo paraphraser.ml
++ ocamlfind ocamlc -c -package batteries -o paraphraser.cmo paraphraser.ml
+File "paraphraser.ml", line 34, characters 21-442:
+34 | .....................(Var d) el =
+35 |                 match el with
+36 |                 | Object( Var s, _, _, _, _, _, _, _,_ )           -> s = d
+37 |                 | PredicateIntransitive ( Var s, _, _,_, _ )       -> s = d
+38 |                 | PredicateTransitive   ( Var s, _, _,_, _, _ )    -> s = d
+39 |                 | PredicateDiTransitive ( Var s, _, _,_, _, _, _ ) -> s = d
+40 |                 | _                                               -> false...
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(SubAtom _|Num _|ConstStr _|List _)
+File "paraphraser.ml", line 121, characters 26-97:
+121 |                         | PredicateTransitive   ( ref , Verbe verb,_, subject, Num nbr, gramnbr )      ->  phrase_relat^(verb2str verb gramnbr)^(string_of_int nbr)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Warning 11: this match case is unused.
+File "paraphraser.ml", line 131, characters 25-73:
+131 | .........................(List l) =
+132 |         "["^(String.concat "," l)^"]"
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(Var _|SubAtom _|Num _|ConstStr _)
+File "paraphraser.ml", line 182, characters 8-1613:
+182 | ........match  exists_Operator l, exists_Predicate l, exists_Modifier_pp l, exists_Relation l with
+183 |         |  false, false, false, false  -> lst@(List.map objet_en_tant_que_sujet l)
+184 |         |  false, false, false, true   -> lst@[paraphrase_relation l]
+185 |         |  false, false, _ ,_         ->  lst@["Cas non géré pour le moment : If dans un if"];
+186 | 
+...
+201 |         | true, true, true, _ ->
+202 |                 let verbes = List.filter is_Predicate  l in 
+203 |                 let operators = List.filter is_Operator l in
+204 |                 (List.map gereOP operators)@(List.map mkPhrase verbes)@lst
+Warning 8: this pattern-matching is not exhaustive.
+Here is an example of a case that is not matched:
+(true, false, true, _)
+# Target: parser.ml.depends, tags: { package(batteries), extension:ml, file:parser.ml, ocaml, ocamldep, quiet }
+ocamlfind ocamldep -package batteries -modules parser.ml > parser.ml.depends
+# Target: parser.cmo, tags: { package(batteries), byte, compile, extension:cmo, extension:ml, file:parser.cmo, file:parser.ml, implem, ocaml, quiet }
+ocamlfind ocamlc -c -package batteries -o parser.cmo parser.ml
+# Target: paraphraser.byte, tags: { package(batteries), byte, dont_link_with, extension:byte, file:paraphraser.byte, link, ocaml, program, quiet }
+ocamlfind ocamlc -linkpkg -package batteries syntax.cmo parser.cmo lexer.cmo message.cmo drsxp.cmo paraphraser.cmo -o paraphraser.byte
+# Compilation successful.

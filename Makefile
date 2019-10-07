@@ -6,7 +6,7 @@ SOURCES = \
 	parser.mly \
 	paraphraser.ml \
 
-OCAMLBUILD=ocamlbuild -classic-display -use-ocamlfind
+OCAMLBUILD=ocamlbuild -classic-display -use-ocamlfind -package batteries
 #-use-menhir
 CAML2HTML=caml2html
 OCAMLDOC=ocamldoc
